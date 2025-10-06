@@ -1,0 +1,10 @@
+# Providers (sin versión; los fija el constraints)
+apache-airflow-providers-mysql
+apache-airflow-providers-sqlite
+
+# Driver MySQL (usa libmysqlclient del sistema)
+mysqlclient
+
+# Parquet y data wrangling
+pyarrow
+pandas

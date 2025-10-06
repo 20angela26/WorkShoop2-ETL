@@ -1,0 +1,119 @@
+# docker-compose.yml (sin anchors, sin ciclos)
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: airflow
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    ports:
+      - "3307:3306"           # host 3307 → contenedor 3306 (no choca con tu MySQL local 3306)
+    volumes:
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - etlnet
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - etlnet
+
+   
+  airflow-webserver:
+    image: airflow-custom:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__FERNET_KEY: "Q3e1c8A4x3p8k3kY6i9m3P8g0OCa7kOQ5qYwQb9sQdA="
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "mysql+mysqldb://root:root@mysql:3306/airflow"
+      AIRFLOW__WEBSERVER__SECRET_KEY: "root"
+      _PIP_ADDITIONAL_REQUIREMENTS: ""
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./include:/opt/airflow/include
+      - ./data:/opt/airflow/data
+      - "C:\\Drive:/drive_sync"
+    user: "50000:0"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - etlnet
+    command: ["webserver"]
+    ports:
+      - "8080:8080"
+
+  airflow-scheduler:
+    image: airflow-custom:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__FERNET_KEY: "Q3e1c8A4x3p8k3kY6i9m3P8g0OCa7kOQ5qYwQb9sQdA="
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "mysql+mysqldb://root:root@mysql:3306/airflow"
+      AIRFLOW__WEBSERVER__SECRET_KEY: "root"
+      _PIP_ADDITIONAL_REQUIREMENTS: ""
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./include:/opt/airflow/include
+      - ./data:/opt/airflow/data
+      - "C:\\Drive:/drive_sync"
+    user: "50000:0"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - etlnet
+    command: ["scheduler"]
+
+  airflow-init:
+    image: airflow-custom:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__FERNET_KEY: "Q3e1c8A4x3p8k3kY6i9m3P8g0OCa7kOQ5qYwQb9sQdA="
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "mysql+mysqldb://root:root@mysql:3306/airflow"
+      AIRFLOW__WEBSERVER__SECRET_KEY: "root"
+      _PIP_ADDITIONAL_REQUIREMENTS: ""
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./include:/opt/airflow/include
+      - ./data:/opt/airflow/data
+      - "C:\\Drive:/drive_sync"
+    user: "50000:0"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - etlnet
+    # En Windows: pasar TODO el comando dentro del entrypoint evita el bug de parseo
+    entrypoint: ["bash","-lc","airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"]
+
+networks:
+  etlnet:
+
+volumes:
+  mysqldata:
