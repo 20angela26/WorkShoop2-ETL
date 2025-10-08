@@ -4,6 +4,8 @@ This is an academic project that uses Docker and Apache Airflow to perform the i
 
 This project demonstrates the creation of a data pipeline for processing, cleaning, and visualizing datasets using Apache Airflow, Docker, MySQL, and Metabase.
 It integrates two datasets from Kaggle, performs ETL (Extract, Transform, Load) processes, builds a data warehouse, and finally creates visual dashboards with key KPIs.
+<img width="1011" height="476" alt="image" src="https://github.com/user-attachments/assets/f5cd3973-8cf5-47c8-ad0f-7d5e69203ca8" />
+
 
 ### 🚀 Project Overview
 
