@@ -5,11 +5,11 @@ This is an academic project that uses Docker and Apache Airflow to perform the i
 This project demonstrates the creation of a data pipeline for processing, cleaning, and visualizing datasets using Apache Airflow, Docker, MySQL, and Metabase.
 It integrates two datasets from Kaggle, performs ETL (Extract, Transform, Load) processes, builds a data warehouse, and finally creates visual dashboards with key KPIs.
 
-#### 🚀 Project Overview
+### 🚀 Project Overview
 
 The objective of this project is to automate a complete data workflow — from raw data ingestion to business intelligence dashboards — using containerized environments and modern data tools.
 
-#### Main components:
+### Main components:
 
 Docker & Docker Compose – container orchestration
 
@@ -32,12 +32,12 @@ Before running the project, make sure you have the following installed:
     
     pip install pandas sqlalchemy apache-airflow matplotlib seaborn
 
-### ⚙️ Step 2: Create the Docker Compose File
+## ⚙️ Step 2: Create the Docker Compose File
 
 Create a file named docker-compose.yml in your project root.
 This file will define the services (containers) for Airflow, MySQL, and Metabase.
 
-####Example structure:
+###Example structure:
 
     version: '3'
     services:
@@ -99,7 +99,7 @@ tempo, time_signature, track_genre
 year, title, published_at, updated_at, category,
 nominee, artist, workers, img, winner
 
-#### 🧠 Step 4: Data Exploration
+## 🧠 Step 4: Data Exploration
 
 In the notebooks/ folder, a preliminary Exploratory Data Analysis (EDA) was performed using pandas, matplotlib, and seaborn to understand:
 
@@ -109,7 +109,7 @@ Outliers and variable correlations
 
 Basic descriptive statistics
 
-#### 🧹 Step 5: Data Cleaning with Airflow
+## 🧹 Step 5: Data Cleaning with Airflow
 
 In the dags/ folder, an Airflow DAG automates the cleaning process for one of the datasets.
 This DAG:
@@ -122,12 +122,12 @@ Merges both datasets
 
 Loads the cleaned data into MySQL and exports it as a .csv file to a local or cloud storage drive
 
-#### 🗄️ Step 6: Building the Data Warehouse
+## 🗄️ Step 6: Building the Data Warehouse
 
 The cleaned and merged data is stored in MySQL Workbench as a data warehouse.
 This allows structured queries and supports Metabase connections for visualization.
 
-#### 📊 Step 7: Visualization with Metabase
+## 📊 Step 7: Visualization with Metabase
 
 A dashboard was created in Metabase (running on port 3000) to visualize KPIs and correlations between the datasets.
 It includes metrics such as:
@@ -138,14 +138,14 @@ Trends in award winners by year
 
 Relationship between song popularity and danceability, energy, and valence
 
-#### 🧩 Technologies Used
+## 🧩 Technologies Used
 
 Docker / Docker Compose	Environment: orchestration
 Apache Airflow: Workflow automation
 MySQL: Data storage and warehouse
 Metabase: Data visualization
 Pandas, SQLAlchemy, Matplotlib, Seaborn	Data: analysis and visualization
-#### 🏁 Final Notes
+## 🏁 Final Notes
 
 This project demonstrates the full lifecycle of a data engineering and analytics pipeline, from raw data ingestion to insightful dashboards.
 It can be extended by integrating APIs, cloud storage, or automated updates via Airflow scheduling.
