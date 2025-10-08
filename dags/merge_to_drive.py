@@ -22,8 +22,8 @@ from merge_to_dw import (
 )
 
 
-SYNC_DIR = os.getenv("SYNC_DIR") 
-SQLITE_CONN_ID = os.getenv("SQLITE_CONN_ID")
+SYNC_DIR = "/drive_sync" 
+SQLITE_CONN_ID='sqlite_grammys'
 
 
 def ensure_dir(path: str):
@@ -37,7 +37,7 @@ def save_dataframe_to_csv(df: pd.DataFrame, run_ts: str, base_dir: str) -> str:
     return path
 
 @dag(
-    schedule=None,
+    schedule="0 2 * * SUN",
     start_date=datetime(2024, 1, 1),
     catchup=False,
     tags=["merge", "csv", "drive"],

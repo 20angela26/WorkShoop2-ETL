@@ -63,7 +63,7 @@ def _mode_or_first(s: pd.Series):
 @dag(
     dag_id="spotify_clean",
     start_date=days_ago(1),
-    schedule=None,
+    schedule="0 2 * * SUN",
     catchup=False,
     tags=["spotify","cleaning","minimal"]
 )

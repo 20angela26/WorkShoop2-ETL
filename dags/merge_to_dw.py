@@ -16,12 +16,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-SQLITE_CONN_ID = os.getenv("SQLITE_CONN_ID")
-MYSQL_CONN_ID = os.getenv("MYSQL_CONN_ID")
-SPOTIFY_CSV_PATH = os.getenv("SPOTIFY_CSV_PATH")
-GRAMMY_TABLE = os.getenv("GRAMMY_TABLE")
-BATCH_SIZE = int(os.getenv("BATCH_SIZE", 1000))
 
+
+SQLITE_CONN_ID='sqlite_grammys'
+MYSQL_CONN_ID='mysql_dw'
+SPOTIFY_CSV_PATH='data/spotify_clean_final.csv'
+GRAMMY_TABLE='grammy_records'
+BATCH_SIZE=1000
 
 
 def extract_spotify_data_from_csv(path: str) -> pd.DataFrame:
